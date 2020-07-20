@@ -1,8 +1,6 @@
 package com.nagy.functional;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Car {
     private final int gasLevel;
@@ -46,7 +44,7 @@ public class Car {
     }
 
     @Override
-    public String toString() {
+    public java.lang.String toString() {
         return "Car{" +
                 "gasLevel=" + gasLevel +
                 ", color='" + color + '\'' +
@@ -56,35 +54,41 @@ public class Car {
                 ) + '}';
     }
 
-    public static CarCriterion getRedCarCriterion() {
+    public static Criterion<Car> getFourPassengersCriterion() {
+        return c -> c.getPassengers().size() == 4;
+    }
+
+    public static Criterion<Car> getRedCarCriterion() {
         // return new RedCarCriterion();
         return RED_CAR_CRITERION;
     }
 
-    private static final RedCarCriterion RED_CAR_CRITERION = new RedCarCriterion();
+    private static final Criterion<Car> RED_CAR_CRITERION = c -> c.color.equals("Red");
 
-    private static class RedCarCriterion implements CarCriterion {
-        @Override
-        public boolean test(Car c) {
-            return c.color.equals("Red");
-        }
+
+    public static Criterion<Car> getGasLevelCarCriterion(final int threshold) {
+        return c -> c.gasLevel >= threshold;
     }
 
-    public static CarCriterion getGasLevelCarCriterion(int threshold) {
-        return new GasLevelCarCriterion(threshold);
+//    public static Criterion<Car> getColorCriterion(String... colors) {
+//        return c -> {
+//            for (String color : colors) {
+//                if (c.color.equals(color)) {
+//                    return true;
+//                }
+//            }
+//            return false;
+//        };
+//    }
+
+    public static Criterion<Car> getColorCriterion(String... colors) {
+        Set<String> colorSet = new HashSet<>(Arrays.asList(colors));
+        return c -> colorSet.contains(c.color);
     }
 
-    private static class GasLevelCarCriterion implements CarCriterion {
-        private int threshold;
-
-        public GasLevelCarCriterion(int threshold) {
-            this.threshold = threshold;
-        }
-
-        @Override
-        public boolean test(Car c) {
-            return c.gasLevel >= threshold;
-        }
-
+    public static Comparator<Car> getGasComparator() {
+        return GAS_COMPARATOR;
     }
+
+    private static final Comparator<Car> GAS_COMPARATOR = (o1, o2) -> o1.getGasLevel() - o2.getGasLevel();
 }

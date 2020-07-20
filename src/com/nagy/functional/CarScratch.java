@@ -13,29 +13,28 @@ class PassengerCountOrder implements Comparator<Car> {
     }
 }
 
-interface CarCriterion {
-    boolean test(Car c);
+@FunctionalInterface
+interface Criterion<E> {
+    boolean test(E e);
 }
 
-
 public class CarScratch {
-    public static void showAll(List<Car> lc) {
-        for (Car c : lc) {
+    public static <E> void showAll(List<E> lc) {
+        for (E c : lc) {
             System.out.println(c);
         }
         System.out.println("---------------------------");
     }
 
-    public static List<Car> getCarsByCriterion(Iterable<Car> in, CarCriterion crit) {
-        List<Car> output = new ArrayList<>();
-        for (Car c : in) {
+    public static <E> List<E> getByCriterion(Iterable<E> in, Criterion<E> crit) {
+        List<E> output = new ArrayList<>();
+        for (E c : in) {
             if (crit.test(c)) {
                 output.add(c);
             }
         }
         return output;
     }
-
 
     public static void main(String[] args) {
         List<Car> cars = Arrays.asList(
@@ -45,11 +44,6 @@ public class CarScratch {
                 Car.withGasColorPassengers(6, "Red", "Ender", "Hyrum", "Locke", "Bonzo")
         );
         showAll(cars);
-        showAll(getCarsByCriterion(cars, Car.getRedCarCriterion()));
-        showAll(getCarsByCriterion(cars, Car.getGasLevelCarCriterion(6)));
-
-        //   cars.sort(new PassengerCountOrder());
-
-        //   showAll(cars);
+        showAll(getByCriterion(cars, Car.getColorCriterion("Red", "Green")));
     }
 }
