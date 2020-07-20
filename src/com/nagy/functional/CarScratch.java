@@ -13,11 +13,6 @@ class PassengerCountOrder implements Comparator<Car> {
     }
 }
 
-@FunctionalInterface
-interface Criterion<E> {
-    boolean test(E e);
-}
-
 public class CarScratch {
     public static <E> void showAll(List<E> lc) {
         for (E c : lc) {
@@ -43,7 +38,13 @@ public class CarScratch {
                 Car.withGasColorPassengers(7, "Green", "Valentine", "Gillian", "Anne", "Dr Mahmoud"),
                 Car.withGasColorPassengers(6, "Red", "Ender", "Hyrum", "Locke", "Bonzo")
         );
-        showAll(cars);
-        showAll(getByCriterion(cars, Car.getColorCriterion("Red", "Green")));
+
+        Criterion<Car> level7 = Car.getGasLevelCarCriterion(7);
+        Criterion<Car> notLevel7 = level7.negate();
+        showAll(getByCriterion(cars, notLevel7));
+        Criterion<Car> or = level7.or(notLevel7);
+
+        showAll(getByCriterion(cars, or));
+
     }
 }

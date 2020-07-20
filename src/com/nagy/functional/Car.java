@@ -59,7 +59,6 @@ public class Car {
     }
 
     public static Criterion<Car> getRedCarCriterion() {
-        // return new RedCarCriterion();
         return RED_CAR_CRITERION;
     }
 
@@ -69,17 +68,6 @@ public class Car {
     public static Criterion<Car> getGasLevelCarCriterion(final int threshold) {
         return c -> c.gasLevel >= threshold;
     }
-
-//    public static Criterion<Car> getColorCriterion(String... colors) {
-//        return c -> {
-//            for (String color : colors) {
-//                if (c.color.equals(color)) {
-//                    return true;
-//                }
-//            }
-//            return false;
-//        };
-//    }
 
     public static Criterion<Car> getColorCriterion(String... colors) {
         Set<String> colorSet = new HashSet<>(Arrays.asList(colors));
