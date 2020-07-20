@@ -54,22 +54,22 @@ public class Car {
                 ) + '}';
     }
 
-    public static Criterion<Car> getFourPassengersCriterion() {
+    public static Predicate<Car> getFourPassengersCriterion() {
         return c -> c.getPassengers().size() == 4;
     }
 
-    public static Criterion<Car> getRedCarCriterion() {
+    public static Predicate<Car> getRedCarCriterion() {
         return RED_CAR_CRITERION;
     }
 
-    private static final Criterion<Car> RED_CAR_CRITERION = c -> c.color.equals("Red");
+    private static final Predicate<Car> RED_CAR_CRITERION = c -> c.color.equals("Red");
 
 
-    public static Criterion<Car> getGasLevelCarCriterion(final int threshold) {
+    public static Predicate<Car> getGasLevelCarCriterion(final int threshold) {
         return c -> c.gasLevel >= threshold;
     }
 
-    public static Criterion<Car> getColorCriterion(String... colors) {
+    public static Predicate<Car> getColorCriterion(String... colors) {
         Set<String> colorSet = new HashSet<>(Arrays.asList(colors));
         return c -> colorSet.contains(c.color);
     }
