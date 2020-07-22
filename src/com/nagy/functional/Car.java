@@ -15,7 +15,7 @@ public class Car {
         this.trunkContents = trunkContens;
     }
 
-    public static Car withGasColorPassengers(int gas, String color, String... passengers) {
+    public static Car withGasColorPassengers(int gas, String color, String... passengers ) {
         List<String> p = Collections.unmodifiableList(Arrays.asList(passengers));
         Car self = new Car(gas, color, p, null);
         return self;
@@ -31,6 +31,10 @@ public class Car {
         return gasLevel;
     }
 
+    public Car addGas(int g) {
+        return new Car(gasLevel + g , color, passengers, trunkContents);
+    }
+
     public String getColor() {
         return color;
     }
@@ -41,6 +45,10 @@ public class Car {
 
     public List<String> getTrunkContents() {
         return trunkContents;
+    }
+
+    public Optional<List<String>> getTrunkContentsOpt() {
+        return Optional.ofNullable(trunkContents);
     }
 
     @Override
